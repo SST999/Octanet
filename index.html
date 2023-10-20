@@ -1,59 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaya Travels</title>
-    <!-- css link -->
+    <title>To-Do List</title>
     <link rel="stylesheet" href="style.css">
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
+
 <body>
     <div class="container">
-
-        <header>
-          <h2><a href="#"><i class="ion-plane"></i> Jaya Travel</a></h2>
-          <nav>
-            <ul>
-              <li>
-                <a href="#" title="Hotels">Hotels</a>
-              </li>
-              <li>
-                <a href="#" title="Flights">Flights</a>
-              </li>
-              <li>
-                <a href="#" title="Tours">Tours</a>
-              </li>
-              <li>
-                <a class="btn" href="#" title="Register / Log In">Register/Log In</a>
-              </li>
-            </ul>
-          </nav>
-        </header>
-
-        <div class="cover">
-          <h1>Discover what's out there.</h1>
-          <form class="flex-form">
-            <label for="from">
-              <i class="ion-location"></i>
-            </label>
-            <input type="search" placeholder="Where do you want to go?">
-            <input type="submit" value="Search">
-          </form>
-          <div id="madeby">
-            <span>
-                <p>"Travel far enough, you meet yourself." - David Mitchell</p>
-            </span>
-          </div>
+        <div class="addTask">
+            <input type="text" placeholder="Add a Task">
+            <button>Add</button>
         </div>
+        <ol class="notcompleted">
+            <h3>Not Completed</h3>
+        </ol>
+        <ol class="completed">
+            <h3>Completed</h3>
+        </ol>
+    </div>
+    <script>
+        const input = document.querySelector('input');
+        const btn = document.querySelector('.addTask > button');
 
-      </div>
+        btn.addEventListener('click', addList);
+        input.addEventListener('keyup', (e) => {
+            (e.keyCode === 13 ? addList(e) : null);
+        })
 
+        function addList(e) {
+            const notcompleted = document.querySelector('.notcompleted');
+            const completed = document.querySelector('.completed');
 
+            const newLi = document.createElement('li');
+            const checkBtn = document.createElement('button');
+            const delBtn = document.createElement('button');
+
+            checkBtn.innerHTML = '<ion-icon name="checkmark-outline"></ion-icon>';
+            delBtn.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
+
+            if (input.value !== '') {
+                newLi.textContent = input.value;
+                input.value = '';
+                notcompleted.appendChild(newLi);
+                newLi.appendChild(checkBtn);
+                newLi.appendChild(delBtn);
+            }
+
+            checkBtn.addEventListener('click', function () {
+                const parent = this.parentNode;
+                parent.remove();
+                completed.appendChild(parent);
+                checkBtn.style.display = 'none';
+            });
+
+            delBtn.addEventListener('click', function () {
+                const parent = this.parentNode;
+                parent.remove();
+            });
+        }
+    </script>
 </body>
+
 </html>
